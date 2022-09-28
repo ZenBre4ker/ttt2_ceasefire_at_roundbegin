@@ -19,7 +19,7 @@ if file.Exists("terrortown/scripts/sh_convarutil_local.lua", "LUA") then
 	--Convar(cg, false, "ttt_asm_shift_speed_modifier", 2, {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Movement speed multiplier during the aiming sequence", "float", 0.01, 8, 2)
 
 	Convar(cg, false, "ttt_ceasefire", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Should there be a Ceasefire at Roundbegin?", "bool", 0, 1, 0)
-	Convar(cg, false, "ttt_ceasefire_duration", 30, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "How long the duration of the Ceasefire at Roundbegin should be?", "int", 10, 60, 0)
+	Convar(cg, false, "ttt_ceasefire_duration", 30, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "How long the duration of the Ceasefire at Roundbegin should be?", "int", 3, 60, 0)
 	Convar(cg, false, "ttt_ceasefire_allowFallDamage", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Should Fall Damage be allowed during Ceasefire?", "bool", 0, 1, 0)
 	Convar(cg, false, "ttt_ceasefire_allowDrowning", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Should Drowning be allowed during Ceasefire?", "bool", 0, 1, 0)
 	Convar(cg, false, "ttt_ceasefire_allowFireDamage", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Should Fire Damage be allowed during Ceasefire?", "bool", 0, 1, 0)
