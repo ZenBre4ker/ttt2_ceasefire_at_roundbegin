@@ -7,7 +7,7 @@ if file.Exists("terrortown/scripts/sh_ceasefire_cvars.lua", "LUA") then
 end
 
 local ceasefire = GetConVar("ttt_ceasefire")
-local ceasefireTime = GetConVar("ttt_ceasefire_duration")
+local ceasefireDuration = GetConVar("ttt_ceasefire_duration")
 
 local allowFallDamage = GetConVar("ttt_ceasefire_allowFallDamage")
 local allowDrowning = GetConVar("ttt_ceasefire_allowDrowning")
@@ -17,31 +17,18 @@ local allowExplosionDamage = GetConVar("ttt_ceasefire_allowExplosionDamage")
 
 local ceasefireTimer = 0
 
+
 hook.Add("TTTBeginRound", "ceasefire_tttbeginround", function()
 	if not ceasefire:GetBool() then return end
 
-	ceasefireTimer = CurTime() + ceasefireTime:GetInt()
-	EPOP:AddMessage({
-				text = "Ceasefire is on for " .. ceasefireTime:GetInt() .. " seconds.",
-				color = COLOR_ORANGE
-				},
-				"You can't damage each other!",
-				math.min(5, ceasefireTime:GetInt()),
-				nil,
-				true
-			)
-	timer.Create("ceasefire_timer_over", ceasefireTime:GetInt(), 1, function()
-		EPOP:AddMessage({
-					text = "Ceasefire is now over.",
-					color = COLOR_RED
-					},
-					nil,
-					3,
-					nil,
-					true
-				)
-	end)
+	ceasefireTimer = CurTime() + ceasefireDuration:GetInt()
+
+	if not CLIENT then return end
+
+	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
 end)
+
+if not SERVER then return end
 
 hook.Add("PlayerTakeDamage", "ceasefire_playertakedamage" , function(ply, inflictor, att, dmg, dmginfo)
 	if not ceasefire:GetBool() then return end
@@ -58,12 +45,4 @@ hook.Add("PlayerTakeDamage", "ceasefire_playertakedamage" , function(ply, inflic
 		dmginfo:ScaleDamage(0)
 		dmginfo:SetDamage(0)
 	end
-end)
-
-hook.Add("TTTEndRound", "ceasefire_tttendround", function()
-	if not ceasefire:GetBool() then return end
-
-	ceasefireTimer = CurTime() - 0.1
-
-	timer.Remove("ceasefire_timer_over")
 end)
