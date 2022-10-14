@@ -17,13 +17,18 @@ local allowExplosionDamage = GetConVar("ttt_ceasefire_allowExplosionDamage")
 
 local ceasefireTimer = 0
 
+
 hook.Add("TTTBeginRound", "ceasefire_tttbeginround", function()
 	if not ceasefire:GetBool() then return end
 
-	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
-
 	ceasefireTimer = CurTime() + ceasefireDuration:GetInt()
+
+	if not CLIENT then return end
+
+	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
 end)
+
+if not SERVER then return end
 
 hook.Add("PlayerTakeDamage", "ceasefire_playertakedamage" , function(ply, inflictor, att, dmg, dmginfo)
 	if not ceasefire:GetBool() then return end
