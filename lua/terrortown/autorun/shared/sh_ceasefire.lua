@@ -21,7 +21,7 @@ hook.Add("TTTBeginRound", "ceasefire_tttbeginround", function()
 	if not ceasefire:GetBool() then return end
 
 	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
-	
+
 	ceasefireTimer = CurTime() + ceasefireDuration:GetInt()
 end)
 
