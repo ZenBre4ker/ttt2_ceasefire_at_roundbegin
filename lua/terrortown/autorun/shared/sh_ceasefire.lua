@@ -26,9 +26,38 @@ hook.Add("TTTBeginRound", "ceasefire_tttbeginround", function()
 	if not CLIENT then return end
 
 	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
+
+	EPOP:AddMessage({
+		text = "Ceasefire is on for " .. ceasefireDuration:GetInt() .. " seconds.",
+		color = COLOR_ORANGE
+		},
+		"You can't damage each other!",
+		math.min(4, ceasefireDuration:GetInt()),
+		nil,
+		true
+	)
+
+	timer.Create("ceasefire_timer_over", ceasefireDuration:GetInt(), 1, function()
+		EPOP:AddMessage({
+			text = "Ceasefire is now over.",
+			color = COLOR_RED
+			},
+			nil,
+			3,
+			nil,
+			true
+		)
+	end)
 end)
 
 if not SERVER then return end
+
+hook.Add("TTTEndRound", "ceasefire_tttendround", function()
+	if not ceasefire:GetBool() then return end
+
+	ceasefireTimer = CurTime() - 0.1
+	timer.Remove("ceasefire_timer_over")
+end)
 
 hook.Add("PlayerTakeDamage", "ceasefire_playertakedamage" , function(ply, inflictor, att, dmg, dmginfo)
 	if not ceasefire:GetBool() then return end
