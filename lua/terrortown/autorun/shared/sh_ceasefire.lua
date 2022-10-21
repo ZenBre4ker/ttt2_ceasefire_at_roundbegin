@@ -8,6 +8,7 @@ end
 
 local ceasefire = GetConVar("ttt_ceasefire")
 local ceasefireDuration = GetConVar("ttt_ceasefire_duration")
+local showEpopMsg = GetConVar("ttt_ceasefire_showEpopMessage")
 
 local allowFallDamage = GetConVar("ttt_ceasefire_allowFallDamage")
 local allowDrowning = GetConVar("ttt_ceasefire_allowDrowning")
@@ -26,6 +27,8 @@ hook.Add("TTTBeginRound", "ceasefire_tttbeginround", function()
 	if not CLIENT then return end
 
 	STATUS:AddTimedStatus("ceasefire_status", ceasefireDuration:GetInt(), true)
+
+  if not showEpopMsg:GetBool() then return end
 
 	EPOP:AddMessage({
 		text = "Ceasefire is on for " .. ceasefireDuration:GetInt() .. " seconds.",
@@ -56,7 +59,11 @@ hook.Add("TTTEndRound", "ceasefire_tttendround", function()
 	if not ceasefire:GetBool() then return end
 
 	ceasefireTimer = CurTime() - 0.1
-	timer.Remove("ceasefire_timer_over")
+
+  -- Works, even if showEpopMsg is changed between timer-start and timer-finish
+  if timer.Exists("ceasefire_timer_over") then
+    timer.Remove("ceasefire_timer_over")
+  end
 end)
 
 hook.Add("PlayerTakeDamage", "ceasefire_playertakedamage" , function(ply, inflictor, att, dmg, dmginfo)
