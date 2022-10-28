@@ -60,7 +60,7 @@ hook.Add("TTTEndRound", "ceasefire_tttendround", function()
 
 	ceasefireTimer = CurTime() - 0.1
 
-  -- Works, even if showEpopMsg is changed between timer-start and timer-finish
+  -- Works, even if showEpopMsg-ConVar is changed between timer-start and timer-finish
   if timer.Exists("ceasefire_timer_over") then
     timer.Remove("ceasefire_timer_over")
   end
